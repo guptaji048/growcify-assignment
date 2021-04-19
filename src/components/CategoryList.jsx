@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
+import { useHistory, generatePath } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemSecondaryAction, IconButton, Divider } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import categoryPhotosArr from './Data';
+import { CategoryContext } from "../contexts/CategoryContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,21 +27,19 @@ const useStyles = makeStyles((theme) => ({
 
 function CategoryList() {
   const classes = useStyles();
-  const [categoryList, setCategoryList] = useState([]);
+  const history = useHistory();
+  const { categoryList } = useContext(CategoryContext);
 
-  useEffect(() => {
-    fetch('https://api.growcify.com/dev/category/list')
-      .then(response => response.json())
-      .then(data => {
-        const temp = data.filter((cate) => cate.parent ? null : cate)
-        setCategoryList(temp);
-      });
-  }, [])
+  const handleProceed = (e, id) => {
+    e.preventDefault();
+    history.push(generatePath("/category/:id", { id }));
+  }
+
   return (
     <List className={classes.root}>
       {categoryList && categoryList.map((category, idx) => (
         <React.Fragment>
-          <ListItem alignItems="center" key={idx} className={classes.listItem}>
+          <ListItem alignItems="center" key={idx} className={classes.listItem} onClick={(e) => handleProceed(e, category._id)}>
             <ListItemAvatar>
               <Avatar variant="rounded" alt="Category Items" src={categoryPhotosArr[idx]} />
             </ListItemAvatar>
