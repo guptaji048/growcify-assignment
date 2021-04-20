@@ -3,7 +3,7 @@ import { useHistory, generatePath } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText, ListItemAvatar, Avatar, ListItemSecondaryAction, IconButton, Divider } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import categoryPhotosArr from './Data';
+import { categoryPhotosArr } from './Data';
 import { CategoryContext } from "../contexts/CategoryContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,21 +30,25 @@ function CategoryList() {
   const history = useHistory();
   const { categoryList } = useContext(CategoryContext);
 
-  const handleProceed = (e, id) => {
+  const handleProceed = (e, id, name) => {
     e.preventDefault();
-    history.push(generatePath("/category/:id", { id }));
+    history.push({
+      pathname: generatePath("/category/:id", { id }),
+      state: { name },
+    });
   }
 
   return (
     <List className={classes.root}>
       {categoryList && categoryList.map((category, idx) => (
-        <React.Fragment>
-          <ListItem alignItems="center" key={idx} className={classes.listItem} onClick={(e) => handleProceed(e, category._id)}>
+        <React.Fragment key={idx}>
+          <ListItem alignItems="center" key={idx} className={classes.listItem} onClick={(e) => handleProceed(e, category._id, category.name)}>
             <ListItemAvatar>
-              <Avatar variant="rounded" alt="Category Items" src={categoryPhotosArr[idx]} />
+              <Avatar variant="rounded" alt="Category Items" src={categoryPhotosArr[idx]} style={{ width: '50px', height: '50px' }} />
             </ListItemAvatar>
             <ListItemText
               primary={category.name}
+              style={{ marginLeft: '10px' }}
             />
             <ListItemSecondaryAction>
               <IconButton edge="end">
