@@ -1,4 +1,5 @@
 export const categoryPhotosArr = [
+    'https://res.cloudinary.com/guptaji048/image/upload/v1619014278/kaju_lolpq1.jpg',
     'https://res.cloudinary.com/guptaji048/image/upload/v1618758819/south-indian_ehrhwx.webp',
     'https://res.cloudinary.com/guptaji048/image/upload/v1618806958/men_s-wear_qoxao7.jpg',
     'https://res.cloudinary.com/guptaji048/image/upload/v1618807251/beverages_t8mn51.jpg',
